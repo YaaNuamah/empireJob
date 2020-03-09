@@ -1,6 +1,5 @@
 package io.turntabl.empireJob;
 
-import io.turntabl.empireJob.jobProcess;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,16 +24,14 @@ public class EmpireJobApplication {
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-		String location = "http://192.168.8.122:8050/api/v1/endpoints";
+		String endpoints_location = System.getenv("ENDPOINTS");
 		HttpClient client = HttpClient.newBuilder().build();
 		URI url;
-		url = new URI(location);
+		url = new URI(endpoints_location);
 
 		HttpRequest request = HttpRequest.newBuilder(url).build();
 		HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
 
-
-		batchJob b = new batchJob();
 		parseJson(res.body()).stream().forEach(e -> {
 			jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
 

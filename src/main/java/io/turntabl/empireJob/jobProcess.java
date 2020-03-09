@@ -1,7 +1,6 @@
 package io.turntabl.empireJob;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -37,6 +36,7 @@ public class jobProcess {
             put("endpoint_id", endpoint_id);
             put("project_id", project_id);
             put("status", status);
+
         }};
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -45,7 +45,7 @@ public class jobProcess {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.8.122:8050/api/v1/addStatus"))
+                .uri(URI.create(System.getenv("STATUS")))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
