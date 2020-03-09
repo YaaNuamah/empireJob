@@ -25,7 +25,6 @@ public class EmpireJobApplication {
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-//		SpringApplication.run(EmpireJobApplication.class, args);
 		String location = "http://192.168.8.122:8050/api/v1/endpoints";
 		HttpClient client = HttpClient.newBuilder().build();
 		URI url;

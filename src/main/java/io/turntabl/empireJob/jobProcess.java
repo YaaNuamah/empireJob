@@ -10,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.Map;
 
 public class jobProcess {
     public static void getstatus(Integer project_id,String url, String method, Integer endpoint_id){
@@ -32,13 +33,13 @@ public class jobProcess {
         }
     }
     public static void  postData(Integer endpoint_id, Integer project_id, Integer status ) throws IOException, InterruptedException {
-        var values = new HashMap<String, Integer>() {{
+        Map<String, Integer> values = new HashMap<String, Integer>() {{
             put("endpoint_id", endpoint_id);
             put("project_id", project_id);
             put("status", status);
         }};
 
-        var objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
                 .writeValueAsString(values);
 

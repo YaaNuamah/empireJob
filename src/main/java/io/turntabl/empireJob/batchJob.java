@@ -27,7 +27,7 @@ public class batchJob {
                 new BeanPropertyRowMapper<EndpointTO>(EndpointTO.class)
         );
         response.stream().map(endpoint -> endpoint.getEndpoint_url()).collect(Collectors.toList()).forEach(entry -> {
-           jobProcess.getstatus(1, "asdasd",entry, 5);
+           jobProcess.getstatus(1, "https://timeentry002.herokuapp.com/v1/api/getloggedsick",entry, 5);
         });
         return  response.stream().map(endpoint -> endpoint.getEndpoint_url()).collect(Collectors.toList());
     }
