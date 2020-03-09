@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
-
 @EnableSwagger2
 @SpringBootApplication
 public class EmpireJobApplication {
@@ -26,7 +25,6 @@ public class EmpireJobApplication {
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
 		String endpoints_location = System.getenv("ENDPOINTS");
 		HttpClient client = HttpClient.newBuilder().build();
-		System.out.println(endpoints_location);
 		URI url;
 		url = new URI(endpoints_location);
 
