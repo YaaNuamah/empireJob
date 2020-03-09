@@ -23,7 +23,7 @@ public class EmpireJobApplication {
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-		String endpoints_location = System.getenv("ENDPOINTS");
+		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL=");
 		HttpClient client = HttpClient.newBuilder().build();
 		URI url;
 		url = new URI(endpoints_location);
