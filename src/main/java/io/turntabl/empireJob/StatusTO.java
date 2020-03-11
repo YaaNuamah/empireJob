@@ -1,7 +1,5 @@
 package io.turntabl.empireJob;
 
-
-
 public class StatusTO {
 
     private String endpoint_url;
