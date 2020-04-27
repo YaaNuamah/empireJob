@@ -23,18 +23,21 @@ public class EmpireJobApplication {
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL=");
+		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
+		System.out.println(System.getenv("GET_ENDPOINTS_LIST_URL"));
 		HttpClient client = HttpClient.newBuilder().build();
 		URI url;
-		url = new URI(endpoints_location);
+		url = new URI(System.getenv("GET_ENDPOINTS_LIST_URL"));
+
 
 		HttpRequest request = HttpRequest.newBuilder(url).build();
 		HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
-
+		jobProcess.deleteData();
 		parseJson(res.body()).stream().forEach(e -> {
 			jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
 
 		});
+
 	}
 
 	public static List<EndpointTO> parseJson(String json) throws IOException {
