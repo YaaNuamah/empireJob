@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,6 +21,8 @@ import java.util.List;
 
 @EnableSwagger2
 @SpringBootApplication
+@EnableScheduling
+
 public class EmpireJobApplication {
 	@Autowired
 	JdbcTemplate template;
@@ -45,5 +50,10 @@ public class EmpireJobApplication {
 		List<EndpointTO> myObjects = Arrays.asList(map.readValue(json, EndpointTO[].class));
 		return myObjects;
 
+	}
+
+	@Scheduled(fixedDelay = 120000, initialDelay = 300000) // delay for 5 min on start and run after every 2min
+	public void empireJobCode(){
+		// run job code
 	}
 }
