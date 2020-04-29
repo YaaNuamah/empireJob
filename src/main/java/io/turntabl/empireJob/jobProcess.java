@@ -11,6 +11,8 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 public class jobProcess {
     public static void getstatus(Integer project_id,String url, String method, Integer endpoint_id){
 
@@ -56,4 +58,18 @@ public class jobProcess {
         System.out.println(response.body());
     }
 
-}
+
+    public static void deleteData() throws IOException, InterruptedException {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(System.getenv("DELETE_STATUS_URL")))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+    }
+    }

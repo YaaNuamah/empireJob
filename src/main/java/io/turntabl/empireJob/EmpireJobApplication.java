@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,23 +21,28 @@ import java.util.List;
 
 @EnableSwagger2
 @SpringBootApplication
+@EnableScheduling
+
 public class EmpireJobApplication {
 	@Autowired
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL=");
+		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
+		System.out.println(System.getenv("GET_ENDPOINTS_LIST_URL"));
 		HttpClient client = HttpClient.newBuilder().build();
 		URI url;
-		url = new URI(endpoints_location);
+		url = new URI(System.getenv("GET_ENDPOINTS_LIST_URL"));
+
 
 		HttpRequest request = HttpRequest.newBuilder(url).build();
 		HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
-
+		jobProcess.deleteData();
 		parseJson(res.body()).stream().forEach(e -> {
 			jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
 
 		});
+
 	}
 
 	public static List<EndpointTO> parseJson(String json) throws IOException {
@@ -42,5 +50,10 @@ public class EmpireJobApplication {
 		List<EndpointTO> myObjects = Arrays.asList(map.readValue(json, EndpointTO[].class));
 		return myObjects;
 
+	}
+
+	@Scheduled(fixedDelay = 120000, initialDelay = 300000) // delay for 5 min on start and run after every 2min
+	public void empireJobCode(){
+		// run job code
 	}
 }
