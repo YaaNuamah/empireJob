@@ -51,7 +51,6 @@ public class EmpireJobApplication {
 		return myObjects;
 
 	}
-
 	@Scheduled(fixedDelay = 120000, initialDelay = 300000) // delay for 5 min on start and run after every 2min
 	public void empireJobCode(){
 		// run job code
