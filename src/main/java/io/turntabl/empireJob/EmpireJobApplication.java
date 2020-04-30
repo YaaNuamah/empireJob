@@ -38,7 +38,7 @@ public class EmpireJobApplication {
 		return myObjects;
 
 	}
-	@Scheduled(fixedDelay = 120000, initialDelay = 300000) // delay for 5 min on start and run after every 2min
+	@Scheduled(fixedDelay = 120000, initialDelay = 60000) // delay for 1 min on start and run after every 2min
 	public static void empireJobCode(){
 		// run job code
 		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
