@@ -2,6 +2,7 @@ package io.turntabl.empireJob;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -28,21 +29,7 @@ public class EmpireJobApplication {
 	JdbcTemplate template;
 
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
-		System.out.println(System.getenv("GET_ENDPOINTS_LIST_URL"));
-		HttpClient client = HttpClient.newBuilder().build();
-		URI url;
-		url = new URI(System.getenv("GET_ENDPOINTS_LIST_URL"));
-
-
-		HttpRequest request = HttpRequest.newBuilder(url).build();
-		HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
-		jobProcess.deleteData();
-		parseJson(res.body()).stream().forEach(e -> {
-			jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
-
-		});
-
+		SpringApplication.run(EmpireJobApplication.class, args);
 	}
 
 	public static List<EndpointTO> parseJson(String json) throws IOException {
@@ -52,7 +39,29 @@ public class EmpireJobApplication {
 
 	}
 	@Scheduled(fixedDelay = 120000, initialDelay = 300000) // delay for 5 min on start and run after every 2min
-	public void empireJobCode(){
+	public static void empireJobCode(){
 		// run job code
+		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
+		System.out.println(System.getenv("GET_ENDPOINTS_LIST_URL"));
+		HttpClient client = HttpClient.newBuilder().build();
+		try {
+			URI url;
+			url = new URI(System.getenv("GET_ENDPOINTS_LIST_URL"));
+
+
+			HttpRequest request = HttpRequest.newBuilder(url).build();
+			HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
+			jobProcess.deleteData();
+			parseJson(res.body()).stream().forEach(e -> {
+				jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
+
+			});
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 }
