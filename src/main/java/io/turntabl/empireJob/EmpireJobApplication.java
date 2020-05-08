@@ -38,16 +38,14 @@ public class EmpireJobApplication {
 		return myObjects;
 
 	}
-	@Scheduled(fixedDelay = 120000, initialDelay = 60000) // delay for 1 min on start and run after every 2min
-	public static void empireJobCode(){
+
+	public static void empireJobCode() throws URISyntaxException, IOException, InterruptedException {
 		// run job code
 		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
 		System.out.println(System.getenv("GET_ENDPOINTS_LIST_URL"));
 		HttpClient client = HttpClient.newBuilder().build();
-		try {
 			URI url;
 			url = new URI(System.getenv("GET_ENDPOINTS_LIST_URL"));
-
 
 			HttpRequest request = HttpRequest.newBuilder(url).build();
 			HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
@@ -56,12 +54,6 @@ public class EmpireJobApplication {
 				jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
 
 			});
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+
 	}
 }
