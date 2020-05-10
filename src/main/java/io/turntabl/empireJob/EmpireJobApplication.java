@@ -39,7 +39,7 @@ public class EmpireJobApplication {
 
 	}
 
-	@Scheduled(fixedDelay = 120000, initialDelay = 60000) // delay for 1 min on start and run after every 2min
+	@Scheduled(fixedDelay = 300000, initialDelay = 60000) // delay for 1 min on start and run after every 2min
 		public static void empireJobCode() throws URISyntaxException, IOException, InterruptedException {
 		// run job code
 		String endpoints_location = System.getenv("GET_ENDPOINTS_LIST_URL");
