@@ -51,7 +51,7 @@ public class EmpireJobApplication {
 
 			HttpRequest request = HttpRequest.newBuilder(url).build();
 			HttpResponse<String> res = client.send(request, HttpResponse.BodyHandlers.ofString(Charset.defaultCharset()));
-//			jobProcess.deleteData();
+			jobProcess.deleteData();
 			parseJson(res.body()).stream().forEach(e -> {
 				jobProcess.getstatus(e.getProject_id(), e.getEndpoint_url(), e.getRequest_method(), e.getEndpoint_id());
 
